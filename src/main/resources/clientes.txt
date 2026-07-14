@@ -1,0 +1,2 @@
+Carlos Soto,12345678-5,Los Alerces,120,Puerto Varas,Los Lagos,+56912345678,carlos.soto@mail.com
+Ana Reyes,9876543-3,Camino Real,45,Frutillar,Los Lagos,+56987654321,ana.reyes@mail.com

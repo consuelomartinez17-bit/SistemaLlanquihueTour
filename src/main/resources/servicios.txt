@@ -1,0 +1,3 @@
+SVT001,Ruta Gastronómica Alemana,Recorrido por cervecerías y casas de té de Frutillar,25000,15
+SVT002,Paseo Lacustre Todos los Santos,Navegación panorámica por el lago,18000,20
+SVT003,Excursión Cultural Puerto Octay,Visita guiada al patrimonio colonial,12000,25
