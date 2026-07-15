@@ -47,6 +47,7 @@ public class MenuPrincipal {
         do {
             mostrarMenu();
             opcion = leerOpcion();
+            System.out.println(); // línea en blanco antes de mostrar el resultado
 
             switch (opcion) {
                 case 1:
@@ -59,19 +60,22 @@ public class MenuPrincipal {
                     buscarClientePorNombre();
                     break;
                 case 4:
-                    crearReserva();
+                    registrarNuevaPersona();
                     break;
                 case 5:
-                    gestorReservas.mostrarTodas();
+                    crearReserva();
                     break;
                 case 6:
+                    gestorReservas.mostrarTodas();
+                    break;
+                case 7:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
                     System.out.println("Opción inválida. Intente nuevamente.");
             }
 
-        } while (opcion != 6);
+        } while (opcion != 7);
 
         scanner.close();
     }
@@ -86,9 +90,10 @@ public class MenuPrincipal {
         System.out.println("1. Mostrar servicios turísticos");
         System.out.println("2. Mostrar personas registradas (clientes/empleados/proveedores)");
         System.out.println("3. Buscar cliente por nombre");
-        System.out.println("4. Crear nueva reserva");
-        System.out.println("5. Mostrar todas las reservas");
-        System.out.println("6. Salir");
+        System.out.println("4. Registrar nueva persona");
+        System.out.println("5. Crear nueva reserva");
+        System.out.println("6. Mostrar todas las reservas");
+        System.out.println("7. Salir");
         System.out.print("Seleccione una opción: ");
     }
 
@@ -104,6 +109,61 @@ public class MenuPrincipal {
             return Integer.parseInt(scanner.nextLine().trim());
         } catch (NumberFormatException e) {
             return -1;
+        }
+    }
+
+    /**
+     * Solicita al usuario un valor numérico decimal (por ejemplo, un sueldo),
+     * limpiando símbolos comunes de formato monetario chileno ($, puntos,
+     * guión final) antes de intentar convertirlo. Si el valor ingresado no
+     * es válido, vuelve a pedirlo en vez de cancelar toda la operación.
+     *
+     * @param mensaje texto a mostrar al solicitar el dato
+     * @return el valor numérico ingresado, ya validado
+     */
+    private double leerMontoValido(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = scanner.nextLine().trim();
+
+            // Quita $, puntos, comas y guiones sueltos (formato tipo $440.000.-)
+            String limpio = texto.replace("$", "")
+                    .replace(".", "")
+                    .replace(",", "")
+                    .replace("-", "")
+                    .trim();
+
+            try {
+                return Double.parseDouble(limpio);
+            } catch (NumberFormatException e) {
+                System.out.println("Valor inválido. Intente nuevamente (solo números, ej: 440000).");
+            }
+        }
+    }
+
+    /**
+     * Solicita al usuario un valor entero (por ejemplo, cantidad de personas
+     * o número de una dirección), limpiando espacios y puntos de miles antes
+     * de intentar convertirlo. Si el valor ingresado no es válido, vuelve a
+     * pedirlo en vez de cancelar toda la operación.
+     *
+     * @param mensaje texto a mostrar al solicitar el dato
+     * @return el valor entero ingresado, ya validado
+     */
+    private int leerEnteroValido(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = scanner.nextLine().trim();
+
+            String limpio = texto.replace(".", "")
+                    .replace(",", "")
+                    .trim();
+
+            try {
+                return Integer.parseInt(limpio);
+            } catch (NumberFormatException e) {
+                System.out.println("Valor inválido. Intente nuevamente (solo números, ej: 3).");
+            }
         }
     }
 
@@ -155,6 +215,94 @@ public class MenuPrincipal {
     }
 
     /**
+     * Guía al usuario para registrar una nueva persona en el sistema,
+     * solicitando primero el tipo (Cliente, Empleado o Proveedor), luego
+     * los datos comunes a toda persona, y finalmente los datos específicos
+     * según el tipo elegido. Valida el RUT y evita duplicados antes de
+     * construir el objeto correspondiente.
+     */
+    private void registrarNuevaPersona() {
+        System.out.println("\n¿Qué tipo de persona desea registrar?");
+        System.out.println("1. Cliente");
+        System.out.println("2. Empleado");
+        System.out.println("3. Proveedor");
+        System.out.print("Seleccione una opción: ");
+
+        int tipo = leerOpcion();
+        if (tipo < 1 || tipo > 3) {
+            System.out.println("Opción inválida. Operación cancelada.");
+            return;
+        }
+
+        // --- Datos comunes a toda Persona ---
+        System.out.print("Nombre completo: ");
+        String nombre = scanner.nextLine().trim();
+        if (nombre.isEmpty()) {
+            System.out.println("El nombre no puede estar vacío. Operación cancelada.");
+            return;
+        }
+
+        System.out.print("RUT (formato 12345678-9): ");
+        String rutTexto = scanner.nextLine().trim();
+
+        for (Persona p : gestorPersonas.getPersonas()) {
+            if (p.getRut().getRutFormateado().equalsIgnoreCase(rutTexto)) {
+                System.out.println("Ya existe una persona registrada con ese RUT.");
+                return;
+            }
+        }
+
+        Rut rut;
+        try {
+            rut = new Rut(rutTexto);
+        } catch (RutInvalidoException e) {
+            System.out.println("RUT inválido: " + e.getMessage());
+            return;
+        }
+
+        System.out.print("Calle: ");
+        String calle = scanner.nextLine().trim();
+
+        int numero = leerEnteroValido("Número: ");
+
+        System.out.print("Comuna: ");
+        String comuna = scanner.nextLine().trim();
+        System.out.print("Región: ");
+        String region = scanner.nextLine().trim();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine().trim();
+
+        Direccion direccion = new Direccion(calle, numero, comuna, region);
+
+        // --- Datos específicos según el tipo elegido ---
+        Persona nuevaPersona = null;
+
+        if (tipo == 1) {
+            System.out.print("Correo electrónico: ");
+            String correo = scanner.nextLine().trim();
+            nuevaPersona = new Cliente(nombre, rut, direccion, telefono, correo);
+
+        } else if (tipo == 2) {
+            System.out.print("Cargo: ");
+            String cargo = scanner.nextLine().trim();
+
+            double sueldo = leerMontoValido("Sueldo: ");
+
+            nuevaPersona = new Empleado(nombre, rut, direccion, telefono, cargo, sueldo);
+
+        } else if (tipo == 3) {
+            System.out.print("Empresa: ");
+            String empresa = scanner.nextLine().trim();
+            System.out.print("Rubro: ");
+            String rubro = scanner.nextLine().trim();
+            nuevaPersona = new Proveedor(nombre, rut, direccion, telefono, empresa, rubro);
+        }
+
+        gestorPersonas.agregarPersona(nuevaPersona);
+        nuevaPersona.registrar();
+    }
+
+    /**
      * Guía al usuario paso a paso para crear una nueva reserva,
      * solicitando el RUT del cliente, el código del servicio, la
      * cantidad de personas y los datos de la tarjeta de pago.
@@ -189,17 +337,15 @@ public class MenuPrincipal {
             return;
         }
 
-        System.out.print("Ingrese la cantidad de personas: ");
-        int cantidadPersonas;
-        try {
-            cantidadPersonas = Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("La cantidad debe ser un número. Operación cancelada.");
+        int cantidadPersonas = leerEnteroValido("Ingrese la cantidad de personas: ");
+
+        System.out.print("Ingrese el número de tarjeta (16 dígitos, solo números): ");
+        String numeroTarjeta = scanner.nextLine().trim();
+
+        if (!numeroTarjeta.matches("\\d{16}")) {
+            System.out.println("El número de tarjeta debe tener exactamente 16 dígitos numéricos. Operación cancelada.");
             return;
         }
-
-        System.out.print("Ingrese el número de tarjeta: ");
-        String numeroTarjeta = scanner.nextLine().trim();
         System.out.print("Ingrese el tipo de tarjeta (Débito/Crédito): ");
         String tipoTarjeta = scanner.nextLine().trim();
 
