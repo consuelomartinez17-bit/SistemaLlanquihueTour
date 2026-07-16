@@ -43,14 +43,27 @@ public class TarjetaPago {
         return "**** **** **** " + ultimosCuatro;
     }
 
+    /**
+     * Obtiene el número de tarjeta enmascarado, mostrando solo los
+     * últimos 4 dígitos.
+     * @return numeroEnmascarado
+     */
     public String getNumeroEnmascarado() {
         return numeroEnmascarado;
     }
 
+    /**
+     * Obtiene el nombre del titular de la tarjeta.
+     * @return titular
+     */
     public String getTitular() {
         return titular;
     }
 
+    /**
+     * Obtiene el tipo de tarjeta (Débito o Crédito).
+     * @return tipo
+     */
     public String getTipo() {
         return tipo;
     }

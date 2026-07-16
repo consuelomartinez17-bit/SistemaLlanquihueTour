@@ -30,10 +30,18 @@ public class Proveedor extends Persona {
         this.rubro = rubro;
     }
 
+    /**
+     * Obtiene la empresa a la que pertenece el proveedor.
+     * @return empresa
+     */
     public String getEmpresa() {
         return empresa;
     }
 
+    /**
+     * Obtiene el rubro del proveedor.
+     * @return rubro
+     */
     public String getRubro() {
         return rubro;
     }

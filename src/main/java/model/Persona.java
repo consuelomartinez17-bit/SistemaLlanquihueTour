@@ -31,20 +31,44 @@ public abstract class Persona implements Registrable {
         this.telefono = telefono;
     }
 
+    /**
+     * Obtiene el nombre de la persona.
+     * @return nombre
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Obtiene el RUT de la persona.
+     * @return rut
+     */
     public Rut getRut() {
         return rut;
     }
 
+    /**
+     * Obtiene la dirección de la persona.
+     * @return direccion
+     */
     public Direccion getDireccion() {
         return direccion;
     }
 
+    /**
+     * Obtiene el teléfono de contacto de la persona.
+     * @return telefono
+     */
     public String getTelefono() {
         return telefono;
+    }
+
+    /**
+     * Actualiza el teléfono de contacto de la persona.
+     * @param telefono nuevo número de teléfono
+     */
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     /**

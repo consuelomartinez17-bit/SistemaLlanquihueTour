@@ -55,26 +55,50 @@ public class Reserva implements Registrable {
         this.confirmada = true;
     }
 
+    /**
+     * Obtiene el código único de la reserva.
+     * @return codigoReserva
+     */
     public String getCodigoReserva() {
         return codigoReserva;
     }
 
+    /**
+     * Obtiene el cliente asociado a la reserva.
+     * @return cliente
+     */
     public Cliente getCliente() {
         return cliente;
     }
 
+    /**
+     * Obtiene el servicio turístico reservado.
+     * @return servicio
+     */
     public ServicioTuristico getServicio() {
         return servicio;
     }
 
+    /**
+     * Obtiene la tarjeta de pago utilizada en la reserva.
+     * @return tarjetaPago
+     */
     public TarjetaPago getTarjetaPago() {
         return tarjetaPago;
     }
 
+    /**
+     * Obtiene la cantidad de personas incluidas en la reserva.
+     * @return cantidadPersonas
+     */
     public int getCantidadPersonas() {
         return cantidadPersonas;
     }
 
+    /**
+     * Indica si la reserva está confirmada.
+     * @return true si está confirmada, false en caso contrario
+     */
     public boolean isConfirmada() {
         return confirmada;
     }

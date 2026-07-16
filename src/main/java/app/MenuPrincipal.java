@@ -6,13 +6,15 @@ import data.GestorReservas;
 import model.*;
 import utils.RutInvalidoException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
  * Controla el menú interactivo por consola del sistema Llanquihue Tour,
  * permitiendo cargar datos desde archivos, mostrar y buscar entidades,
- * crear reservas, y visualizar el estado general del sistema.
+ * registrar nuevas personas, crear reservas, y visualizar el estado
+ * general del sistema.
  *
  * @author consu
  * @version 1.0
@@ -68,14 +70,17 @@ public class MenuPrincipal {
                 case 6:
                     gestorReservas.mostrarTodas();
                     break;
-                case 7:
+                case 8:
+                    mostrarTodoElSistema();
+                    break;
+                case 9:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
                     System.out.println("Opción inválida. Intente nuevamente.");
             }
 
-        } while (opcion != 7);
+        } while (opcion != 9);
 
         scanner.close();
     }
@@ -93,7 +98,8 @@ public class MenuPrincipal {
         System.out.println("4. Registrar nueva persona");
         System.out.println("5. Crear nueva reserva");
         System.out.println("6. Mostrar todas las reservas");
-        System.out.println("7. Salir");
+        System.out.println("8. Mostrar todo el sistema (personas + reservas)");
+        System.out.println("9. Salir");
         System.out.print("Seleccione una opción: ");
     }
 
@@ -126,7 +132,6 @@ public class MenuPrincipal {
             System.out.print(mensaje);
             String texto = scanner.nextLine().trim();
 
-            // Quita $, puntos, comas y guiones sueltos (formato tipo $440.000.-)
             String limpio = texto.replace("$", "")
                     .replace(".", "")
                     .replace(",", "")
@@ -186,6 +191,7 @@ public class MenuPrincipal {
             System.out.println("El número de tarjeta debe tener exactamente 16 dígitos numéricos. Intente nuevamente.");
         }
     }
+
     /**
      * Carga los datos iniciales del sistema: servicios turísticos y
      * clientes desde archivos de texto, además de un empleado y un
@@ -215,7 +221,7 @@ public class MenuPrincipal {
     }
 
     /**
-     * Solicita al usuario un texto y busca clientes cuyo nombre lo
+     * Solicita al usuario un texto y busca personas cuyo nombre lo
      * contenga, mostrando los resultados encontrados.
      */
     private void buscarClientePorNombre() {
@@ -253,7 +259,6 @@ public class MenuPrincipal {
             return;
         }
 
-        // --- Datos comunes a toda Persona ---
         System.out.print("Nombre completo: ");
         String nombre = scanner.nextLine().trim();
         if (nombre.isEmpty()) {
@@ -293,7 +298,6 @@ public class MenuPrincipal {
 
         Direccion direccion = new Direccion(calle, numero, comuna, region);
 
-        // --- Datos específicos según el tipo elegido ---
         Persona nuevaPersona = null;
 
         if (tipo == 1) {
@@ -304,9 +308,7 @@ public class MenuPrincipal {
         } else if (tipo == 2) {
             System.out.print("Cargo: ");
             String cargo = scanner.nextLine().trim();
-
             double sueldo = leerMontoValido("Sueldo: ");
-
             nuevaPersona = new Empleado(nombre, rut, direccion, telefono, cargo, sueldo);
 
         } else if (tipo == 3) {
@@ -374,6 +376,45 @@ public class MenuPrincipal {
 
         } catch (IllegalArgumentException e) {
             System.out.println("No se pudo crear la reserva: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Combina personas y reservas en una única lista polimórfica de tipo
+     * Registrable, demostrando que ambas jerarquías —sin relación de
+     * herencia entre sí— pueden tratarse de forma unificada gracias a
+     * la interfaz común.
+     *
+     * @return lista combinada de todas las entidades registrables del sistema
+     */
+    private List<Registrable> obtenerTodosLosRegistrables() {
+        List<Registrable> todos = new ArrayList<>();
+        todos.addAll(gestorPersonas.getPersonas());
+        todos.addAll(gestorReservas.getReservas().values());
+        return todos;
+    }
+
+    /**
+     * Recorre la lista polimórfica de Registrable (personas y reservas
+     * combinadas), diferenciando cada tipo mediante instanceof y
+     * mostrando su información correspondiente.
+     */
+    private void mostrarTodoElSistema() {
+        List<Registrable> todos = obtenerTodosLosRegistrables();
+
+        if (todos.isEmpty()) {
+            System.out.println("No hay entidades registradas en el sistema.");
+            return;
+        }
+
+        for (Registrable r : todos) {
+            if (r instanceof Persona) {
+                System.out.println("[Persona]");
+            } else if (r instanceof Reserva) {
+                System.out.println("[Reserva]");
+            }
+            r.mostrarDatos();
+            System.out.println("----------------------------------------");
         }
     }
 }

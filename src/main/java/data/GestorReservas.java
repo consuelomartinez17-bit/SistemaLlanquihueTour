@@ -71,4 +71,13 @@ public class GestorReservas {
     public int getCantidad() {
         return reservas.size();
     }
+
+    /**
+     * Obtiene el mapa completo de reservas registradas.
+     * @return mapa de reservas indexado por código
+     */
+    public Map<String, Reserva> getReservas() {
+        return reservas;
+    }
+
 }

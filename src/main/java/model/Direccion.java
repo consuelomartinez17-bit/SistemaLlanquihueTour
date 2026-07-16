@@ -30,18 +30,34 @@ public class Direccion {
         this.region = region;
     }
 
+    /**
+     * Obtiene la calle de la dirección.
+     * @return calle
+     */
     public String getCalle() {
         return calle;
     }
 
+    /**
+     * Obtiene el número de la dirección.
+     * @return numero
+     */
     public int getNumero() {
         return numero;
     }
 
+    /**
+     * Obtiene la comuna de la dirección.
+     * @return comuna
+     */
     public String getComuna() {
         return comuna;
     }
 
+    /**
+     * Obtiene la región de la dirección.
+     * @return region
+     */
     public String getRegion() {
         return region;
     }

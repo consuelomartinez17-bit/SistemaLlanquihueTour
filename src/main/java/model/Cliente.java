@@ -26,8 +26,20 @@ public class Cliente extends Persona {
         this.correo = correo;
     }
 
+    /**
+     * Obtiene el correo electrónico del cliente.
+     * @return correo
+     */
     public String getCorreo() {
         return correo;
+    }
+
+    /**
+     * Actualiza el correo electrónico del cliente.
+     * @param correo nuevo correo electrónico
+     */
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     @Override

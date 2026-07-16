@@ -35,24 +35,60 @@ public class ServicioTuristico {
         this.cuposDisponibles = cuposDisponibles;
     }
 
+    /**
+     * Obtiene el código único del servicio turístico.
+     * @return codigo
+     */
     public String getCodigo() {
         return codigo;
     }
 
+    /**
+     * Obtiene el nombre del servicio turístico.
+     * @return nombre
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Obtiene la descripción del servicio turístico.
+     * @return descripcion
+     */
     public String getDescripcion() {
         return descripcion;
     }
 
+    /**
+     * Obtiene el precio por persona del servicio.
+     * @return precio
+     */
     public double getPrecio() {
         return precio;
     }
 
+    /**
+     * Actualiza el precio por persona del servicio.
+     * @param precio nuevo precio
+     */
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    /**
+     * Obtiene la cantidad de cupos disponibles del servicio.
+     * @return cuposDisponibles
+     */
     public int getCuposDisponibles() {
         return cuposDisponibles;
+    }
+
+    /**
+     * Actualiza la cantidad de cupos disponibles del servicio.
+     * @param cuposDisponibles nueva cantidad de cupos
+     */
+    public void setCuposDisponibles(int cuposDisponibles) {
+        this.cuposDisponibles = cuposDisponibles;
     }
 
     /**
