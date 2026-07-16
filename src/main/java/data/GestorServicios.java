@@ -38,7 +38,7 @@ public class GestorServicios {
      * inválido, se omite esa línea específica y se continúa con las
      * siguientes, informando el número de línea afectada.
      *
-     * @param rutaArchivo ruta del archivo de servicios.txt a cargar
+     * @param nombreArchivo ruta del archivo de servicios.txt a cargar
      */
     public void cargarDesdeArchivo(String nombreArchivo) {
         try (BufferedReader lector = new BufferedReader(new InputStreamReader(

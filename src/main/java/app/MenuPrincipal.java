@@ -89,7 +89,7 @@ public class MenuPrincipal {
         System.out.println("========================================");
         System.out.println("1. Mostrar servicios turísticos");
         System.out.println("2. Mostrar personas registradas (clientes/empleados/proveedores)");
-        System.out.println("3. Buscar cliente por nombre");
+        System.out.println("3. Buscar persona por nombre");
         System.out.println("4. Registrar nueva persona");
         System.out.println("5. Crear nueva reserva");
         System.out.println("6. Mostrar todas las reservas");
@@ -168,8 +168,27 @@ public class MenuPrincipal {
     }
 
     /**
-     * Carga los datos iniciales del sistema: servicios.txt turísticos y
-     * clientes.txt desde archivos de texto, además de un empleado y un
+     * Solicita al usuario el número de tarjeta, validando que tenga
+     * exactamente 16 dígitos numéricos. Si el valor ingresado no es
+     * válido, vuelve a pedirlo en vez de cancelar toda la operación.
+     *
+     * @param mensaje texto a mostrar al solicitar el dato
+     * @return el número de tarjeta ya validado (16 dígitos)
+     */
+    private String leerTarjetaValida(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String texto = scanner.nextLine().trim();
+
+            if (texto.matches("\\d{16}")) {
+                return texto;
+            }
+            System.out.println("El número de tarjeta debe tener exactamente 16 dígitos numéricos. Intente nuevamente.");
+        }
+    }
+    /**
+     * Carga los datos iniciales del sistema: servicios turísticos y
+     * clientes desde archivos de texto, además de un empleado y un
      * proveedor de ejemplo creados directamente en código, para
      * demostrar las tres subclases de Persona en una misma colección.
      */
@@ -196,7 +215,7 @@ public class MenuPrincipal {
     }
 
     /**
-     * Solicita al usuario un texto y busca clientes.txt cuyo nombre lo
+     * Solicita al usuario un texto y busca clientes cuyo nombre lo
      * contenga, mostrando los resultados encontrados.
      */
     private void buscarClientePorNombre() {
@@ -339,13 +358,8 @@ public class MenuPrincipal {
 
         int cantidadPersonas = leerEnteroValido("Ingrese la cantidad de personas: ");
 
-        System.out.print("Ingrese el número de tarjeta (16 dígitos, solo números): ");
-        String numeroTarjeta = scanner.nextLine().trim();
+        String numeroTarjeta = leerTarjetaValida("Ingrese el número de tarjeta (16 dígitos, solo números): ");
 
-        if (!numeroTarjeta.matches("\\d{16}")) {
-            System.out.println("El número de tarjeta debe tener exactamente 16 dígitos numéricos. Operación cancelada.");
-            return;
-        }
         System.out.print("Ingrese el tipo de tarjeta (Débito/Crédito): ");
         String tipoTarjeta = scanner.nextLine().trim();
 
