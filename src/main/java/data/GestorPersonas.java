@@ -78,8 +78,8 @@ public class GestorPersonas {
                 }
             }
 
-        } catch (IOException e) {
-            System.out.println("No se pudo leer el archivo de clientes.txt: " + nombreArchivo );
+        } catch (IOException | NullPointerException e) {
+            System.out.println("No se pudo leer el archivo de clientes: " + nombreArchivo );
         }
     }
 
