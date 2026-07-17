@@ -22,6 +22,8 @@ carga datos de prueba desde archivos de texto externos.
   RUT, dirección, teléfono), implementa `Registrable`.
 - **`Cliente`**, **`Empleado`**, **`Proveedor`**: extienden `Persona`,
   cada una con atributos propios (correo, cargo/sueldo, empresa/rubro).
+  `Empleado` incluye además un **constructor sobrecargado** (con y sin
+  sueldo especificado), demostrando sobrecarga de métodos.
 - **`Rut`**: valida el RUT mediante algoritmo módulo 11, lanza
   `RutInvalidoException` si el formato o el dígito verificador son incorrectos.
 - **`Direccion`**: representa la dirección de una persona (composición).
@@ -45,6 +47,11 @@ carga datos de prueba desde archivos de texto externos.
   servicios desde archivo `.txt`, agrega y busca por código.
 - **`GestorReservas`**: colección `HashMap<String, Reserva>` indexada por
   código de reserva, para búsqueda directa y eficiente.
+- **`MenuPrincipal`** además combina las colecciones de `GestorPersonas`
+  y `GestorReservas` en una única lista polimórfica `List<Registrable>`,
+  recorrida con `instanceof` para diferenciar personas de reservas,
+  demostrando que ambas jerarquías —sin relación de herencia entre
+  sí— pueden tratarse de forma unificada gracias a la interfaz común.
 
 ### Paquete `app`
 - **`Main`**: punto de entrada del sistema, delega el control a `MenuPrincipal`.
@@ -76,8 +83,10 @@ en una misma colección.
     - Mostrar los servicios turísticos cargados.
     - Mostrar las personas registradas, diferenciadas por tipo.
     - Buscar un cliente por nombre.
-    - Crear una nueva reserva (ejemplo: RUT `12345678-5`, servicio `SVT001`).
-    - Mostrar todas las reservas registradas.
+    - Registrar una nueva persona (Cliente, Empleado o Proveedor).
+    - Crear una nueva reserva.
+    - Mostrar todas las reservas.
+    - Mostrar todo el sistema (personas + reservas combinadas).
 
 ## Autora
 
