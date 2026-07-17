@@ -70,10 +70,10 @@ public class MenuPrincipal {
                 case 6:
                     gestorReservas.mostrarTodas();
                     break;
-                case 8:
+                case 7:
                     mostrarTodoElSistema();
                     break;
-                case 9:
+                case 8:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
@@ -98,8 +98,8 @@ public class MenuPrincipal {
         System.out.println("4. Registrar nueva persona");
         System.out.println("5. Crear nueva reserva");
         System.out.println("6. Mostrar todas las reservas");
-        System.out.println("8. Mostrar todo el sistema (personas + reservas)");
-        System.out.println("9. Salir");
+        System.out.println("7. Mostrar todo el sistema (personas + reservas)");
+        System.out.println("8. Salir");
         System.out.print("Seleccione una opción: ");
     }
 
