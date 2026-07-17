@@ -80,7 +80,7 @@ public class MenuPrincipal {
                     System.out.println("Opción inválida. Intente nuevamente.");
             }
 
-        } while (opcion != 9);
+        } while (opcion != 8);
 
         scanner.close();
     }
